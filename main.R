@@ -2,69 +2,50 @@ library(gh)
 library(plyr)
 library(desc)
 
-# MY_GITHUB_PAC is a personal access token you generate on GitHub https://github.com/settings/tokens
-# Supplying this parameter just means your daily rate limit will grow from 60 to 5000
-# You can also drop that argument altogether
+# MY_GITHUB_PAC is a personal access token you generate on GitHub
+# https://github.com/settings/tokens Supplying this parameter just means
+# your daily rate limit will grow from 60 to 5000 You can also drop that
+# argument altogether
 MY_GITHUB_PAC <- "9bad7d9c47f39febc85b73e2afe16646334996e6"
 
 forks_new_commits <- function(owner, repo) {
 
   # Get all forks of the repo
-  all_forks <- gh(
-    "GET /repos/:owner/:repo/forks",
-    owner = owner,
-    repo = repo,
-    .limit = Inf,
-    .token = MY_GITHUB_PAC
+  all_forks <- gh("GET /repos/:owner/:repo/forks",
+    owner = owner, repo = repo,
+    .limit = Inf, .token = MY_GITHUB_PAC
   )
 
-  cat(
-    "Looks like ",
-    owner,
-    "/",
-    repo,
-    " has ",
-    length(all_forks),
-    " forks\n"
-  )
+  cat("Looks like ", owner, "/", repo, " has ", length(all_forks), " forks\n")
 
-  forks_info <- plyr::ldply(
-    all_forks,
-    function(fork) {
-      fork_owner <- fork$owner$login
-      fork_repo <- fork$name
-      fork_full_name <-
-        paste0(fork_owner, "/", fork_repo)
-      cat(fork_full_name)
+  forks_info <- plyr::ldply(all_forks, function(fork) {
+    fork_owner <- fork$owner$login
+    fork_repo <- fork$name
+    fork_full_name <- paste0(fork_owner, "/", fork_repo)
+    cat(fork_full_name)
 
-      tryCatch({
+    tryCatch({
 
-        # Get the last 50 commits on the fork
-        fork_repo <- gh(
-          "GET /repos/:owner/:repo/commits",
-          owner = fork_owner,
-          repo = fork_repo,
-          .limit = 50,
-          .token = MY_GITHUB_PAC
-        )
+      # Get the last 50 commits on the fork
+      fork_repo <- gh("GET /repos/:owner/:repo/commits",
+        owner = fork_owner,
+        repo = fork_repo, .limit = 50, .token = MY_GITHUB_PAC
+      )
 
-        # Get the number of commits not by the original owner
-        num_new_commits <-
-          sum(unlist(lapply(fork_repo, function(x) {
-            x$author$login
-          })) != owner)
-        cat(" ", num_new_commits, " commits\n", sep = "")
+      # Get the number of commits not by the original owner
+      num_new_commits <- sum(unlist(lapply(fork_repo, function(x) {
+        x$author$login
+      })) != owner)
+      cat(" ", num_new_commits, " commits\n", sep = "")
 
-        data.frame(
-          fork = fork_full_name,
-          num_new_commits = num_new_commits,
-          url = fork$html_url
-        )
-      }, error = function(e) {
-        paste0("Error : ", e)
-      })
-    }
-  )
+      data.frame(
+        fork = fork_full_name, num_new_commits = num_new_commits,
+        url = fork$html_url
+      )
+    }, error = function(e) {
+      paste0("Error : ", e)
+    })
+  })
 
   dplyr::arrange(forks_info, desc(num_new_commits))
 }
