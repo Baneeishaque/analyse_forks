@@ -5,7 +5,7 @@ library(plyr)
 # https://github.com/settings/tokens Supplying this parameter just means
 # your daily rate limit will grow from 60 to 5000 You can also drop that
 # argument altogether
-MY_GITHUB_PAC <- "2bf0207c9646f96346c6c22a349d074c3919cb1f"
+MY_GITHUB_PAC <- "16392d5bf9af9c7401d8033291b873eae1e85f0c"
 
 forks_new_commits <- function(owner, repo) {
     
