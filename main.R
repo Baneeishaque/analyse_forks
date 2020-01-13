@@ -1,12 +1,11 @@
 library(gh)
 library(plyr)
-library(desc)
 
 # MY_GITHUB_PAC is a personal access token you generate on GitHub
 # https://github.com/settings/tokens Supplying this parameter just means
 # your daily rate limit will grow from 60 to 5000 You can also drop that
 # argument altogether
-MY_GITHUB_PAC <- "8c33ca6e1b64b8bb1a83a1ee0db115632f818a6e"
+MY_GITHUB_PAC <- "2bf0207c9646f96346c6c22a349d074c3919cb1f"
 
 forks_new_commits <- function(owner, repo) {
     
