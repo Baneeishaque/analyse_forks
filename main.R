@@ -46,4 +46,5 @@ forks_new_commits <- function(owner, repo) {
     dplyr::arrange(forks_info, desc(num_new_commits))
 }
 
-forks_new_commits("mayswind", "AriaNg")
+# forks_new_commits("mayswind", "AriaNg")
+forks_new_commits("Baneeishaque","azad-gold-and-diamonds-website")
