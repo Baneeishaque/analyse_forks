@@ -47,4 +47,5 @@ forks_new_commits <- function(owner, repo) {
 }
 
 # forks_new_commits("mayswind", "AriaNg")
-forks_new_commits("Baneeishaque","azad-gold-and-diamonds-website")
+# forks_new_commits("Baneeishaque","azad-gold-and-diamonds-website")
+forks_new_commits("anujdutt9","Handwritten-Digit-Recognition-using-Deep-Learning")

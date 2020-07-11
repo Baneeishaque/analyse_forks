@@ -48,5 +48,4 @@ vignettes/*.pdf
 # End of https://www.gitignore.io/api/r
 
 packrat/lib*/
-packrat/src/
 
