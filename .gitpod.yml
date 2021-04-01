@@ -1,0 +1,14 @@
+image: baneeishaque/gitpod-workspace-full-vnc-1366x768-tint2-pcmanfm-zsh-gh-r-littler-packrat
+
+# Command to start on workspace startup
+tasks:
+  - command: zsh
+#  - init: gh auth login
+  - command: R -e "setwd('`pwd`')" && R
+    
+# Ports to expose on workspace startup
+ports:
+  - port: 5900
+    onOpen: ignore
+  - port: 6080
+    onOpen: open-preview
